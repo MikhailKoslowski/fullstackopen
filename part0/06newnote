@@ -1,0 +1,19 @@
+#https://www.websequencediagrams.com/
+note over browser:
+User fill in form and click save
+end note
+
+note over browser:
+browser executes the event handler
+that append new note to the list,
+erases the form, generates a time
+stamp and send data to server
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over server:
+Server append data to in-memory array
+end note
+
+server-->browser: [{message: note created}]
