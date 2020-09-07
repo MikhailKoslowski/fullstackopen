@@ -9,16 +9,22 @@ const Header = (props) => {
   )
 }
 
+const Part = (props) => {
+  return (
+    <>
+    <p>{props.part} {props.exercise} </p>
+    </>
+  )
+}
+
 const Content = (props) => {
-  const jsx = []
-  for (let index = 0; index < props.parts.length; index++) {
-    const part = props.parts[index];
-    const exercise = props.exercises[index];
-    jsx.push(
-      <p>{part} {exercise}</p>
-    )
-  }
-  return jsx
+  return (
+    <>
+    <Part part={props.parts[0]} exercise={props.exercises[0]} />
+    <Part part={props.parts[1]} exercise={props.exercises[1]} />
+    <Part part={props.parts[2]} exercise={props.exercises[2]} />
+    </>
+  )
 }
 
 const Total = (props) => {
