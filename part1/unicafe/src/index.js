@@ -26,7 +26,10 @@ const Statistic = (props) => {
 
   return (
     <>
-    <p>{name} {value}</p>
+    <tr>
+      <td>{name}</td>
+      <td>{value}</td>
+    </tr>
     </>
   )
 }
@@ -49,11 +52,15 @@ const Statistics = (props) => {
 
   return (
     <div>
-      <Statistic name='good' value={good}/>
-      <Statistic name='neutral' value={neutral}/>
-      <Statistic name='bad' value={bad}/>
-      <Statistic name='average' value={(good-bad)/total}/>
-      <Statistic name='positive' value={100*good/total+'%'}/>
+      <table>
+        <tbody>
+        <Statistic name='good' value={good}/>
+        <Statistic name='neutral' value={neutral}/>
+        <Statistic name='bad' value={bad}/>
+        <Statistic name='average' value={(good-bad)/total}/>
+        <Statistic name='positive' value={100*good/total+'%'}/>
+        </tbody>
+      </table>
     </div>
   )
 }
