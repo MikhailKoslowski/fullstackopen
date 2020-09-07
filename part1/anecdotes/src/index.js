@@ -22,14 +22,18 @@ const App = (props) => {
   console.log(selected)
   console.log(votes)
 
+  const most = votes.indexOf(Math.max(...votes))
+  console.log(most)
+
   return (
     <>
     <div>
-      {props.anecdotes[selected]}
-      <br/>
-      has {votes[selected]} votes
-    </div>
-    <div>
+      <h1>Anecdote of the day</h1>
+      <p>{props.anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[most]}</p>
+      <p>has {votes[most]} votes</p>
       <button onClick={() => handleVote(votes, setVotes, selected)}>vote</button>
       <button onClick={() => handleNext(props.anecdotes.length, setSelected)}>next anecdote</button>
     </div>
