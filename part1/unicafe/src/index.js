@@ -26,6 +26,16 @@ const Statistics = (props) => {
   const bad = props.counters.bad
   const total = good + neutral + bad
 
+  if (total < 1) 
+  {
+    return (
+      <>
+      <h1>statistics</h1>
+      <p>No feedback given</p>
+      </>
+    )
+  }
+
   return (
     <>
     <h1>statistics</h1>
