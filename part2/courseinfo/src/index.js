@@ -32,6 +32,15 @@ const Content = ({ course }) => {
   )
 }
 
+const Course = ({course}) => {
+  return (
+    <div>
+      <Header course={course} />
+      <Content course={course} />
+    </div>
+  )
+}
+
 const App = () => {
   const course = {
     name: 'Half Stack application development',
@@ -52,11 +61,7 @@ const App = () => {
   }
 
   return (
-    <div>
-      <Header course={course} />
-      <Content course={course} />
-      <Total course={course} />
-    </div>
+    <Course course={course} />
   )
 }
 
