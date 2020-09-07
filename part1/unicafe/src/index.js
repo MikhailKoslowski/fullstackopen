@@ -19,6 +19,24 @@ const buttonClick = (counter, setCounter) => {
     return ()=>setCounter(counter + 1)
 }
 
+const Display = (props) => {
+  console.log("Display props", props)
+  const good = props.counters.good
+  const neutral = props.counters.neutral
+  const bad = props.counters.bad
+  const total = good + neutral + bad
+
+  return (
+    <>
+    <p>good {good}</p>
+    <p>neutral {neutral}</p>
+    <p>bad {bad}</p>
+    <p>average {(good - bad)/total}</p>
+    <p>positive {100*good/total}%</p>
+    </>
+  )
+}
+
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -32,9 +50,7 @@ const App = () => {
       <Button label="neutral" handleClick={buttonClick(neutral, setNeutral)} />
       <Button label="bad" handleClick={buttonClick(bad, setBad)}  />
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <Display counters={{good:good, neutral:neutral, bad:bad}}/>
     </div>
   )
 }
