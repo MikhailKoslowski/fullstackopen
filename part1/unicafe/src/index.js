@@ -19,8 +19,8 @@ const buttonClick = (counter, setCounter) => {
     return ()=>setCounter(counter + 1)
 }
 
-const Display = (props) => {
-  console.log("Display props", props)
+const Statistics = (props) => {
+  console.log("Statistics props", props)
   const good = props.counters.good
   const neutral = props.counters.neutral
   const bad = props.counters.bad
@@ -28,6 +28,7 @@ const Display = (props) => {
 
   return (
     <>
+    <h1>statistics</h1>
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
@@ -49,8 +50,8 @@ const App = () => {
       <Button label="good" handleClick={buttonClick(good, setGood)} />
       <Button label="neutral" handleClick={buttonClick(neutral, setNeutral)} />
       <Button label="bad" handleClick={buttonClick(bad, setBad)}  />
-      <h1>statistics</h1>
-      <Display counters={{good:good, neutral:neutral, bad:bad}}/>
+      
+      <Statistics counters={{good:good, neutral:neutral, bad:bad}}/>
     </div>
   )
 }
