@@ -19,6 +19,18 @@ const buttonClick = (counter, setCounter) => {
     return ()=>setCounter(counter + 1)
 }
 
+const Statistic = (props) => {
+  console.log("Statistic props", props)
+  const name = props.name
+  const value = props.value
+
+  return (
+    <>
+    <p>{name} {value}</p>
+    </>
+  )
+}
+
 const Statistics = (props) => {
   console.log("Statistics props", props)
   const good = props.counters.good
@@ -30,21 +42,19 @@ const Statistics = (props) => {
   {
     return (
       <>
-      <h1>statistics</h1>
       <p>No feedback given</p>
       </>
     )
   }
 
   return (
-    <>
-    <h1>statistics</h1>
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>average {(good - bad)/total}</p>
-    <p>positive {100*good/total}%</p>
-    </>
+    <div>
+      <Statistic name='good' value={good}/>
+      <Statistic name='neutral' value={neutral}/>
+      <Statistic name='bad' value={bad}/>
+      <Statistic name='average' value={(good-bad)/total}/>
+      <Statistic name='positive' value={100*good/total+'%'}/>
+    </div>
   )
 }
 
@@ -60,7 +70,7 @@ const App = () => {
       <Button label="good" handleClick={buttonClick(good, setGood)} />
       <Button label="neutral" handleClick={buttonClick(neutral, setNeutral)} />
       <Button label="bad" handleClick={buttonClick(bad, setBad)}  />
-      
+      <h1>statistics</h1>
       <Statistics counters={{good:good, neutral:neutral, bad:bad}}/>
     </div>
   )
