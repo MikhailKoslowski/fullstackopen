@@ -25,9 +25,9 @@ const PersonForm = (props) => {
 
           phonebookService.create(newPerson)
             .then(response => {
+              setPersons(persons.concat(response))
               setNewName('')
               setNewNumber('')
-              setPersons(persons.concat(newPerson))
             })
             .catch(error => {
               alert("Error creating person in db, check console")
