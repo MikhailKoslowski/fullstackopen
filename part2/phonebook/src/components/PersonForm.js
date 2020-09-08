@@ -33,7 +33,7 @@ const PersonForm = (props) => {
               timedNotification(`${response.name} updated`,'success')
             })
             .catch(error => {
-              timedNotification("Error while updating. Check console", 'error')
+              timedNotification(`Information on ${person.name} has already been removed from the server`, 'error')
               console.log(error)
             })
           }
