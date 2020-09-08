@@ -22,6 +22,7 @@ const Countries = (props) => {
     console.log('Countries props', props)
 
     const countries = props.countries
+    const buttonClick = props.buttonClick !== undefined ? props.buttonClick : ()=>0
 
     if (countries.length === 0) {
         return (
@@ -44,7 +45,14 @@ const Countries = (props) => {
             <div>
                 <p>Matches:</p>
                 <ul>
-                    {countries.map(country => <li key={country.name}>{country.name}</li>)}
+                    {countries.map( country => {
+                        return (
+                        <li>
+                            {country.name}
+                            <button onClick={() => buttonClick(country.name)}>Show</button>
+                        </li>
+                        )
+                    })}
                 </ul>
             </div>
         )

@@ -22,10 +22,14 @@ const App = () => {
 
     const countriesToShow = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
 
+    const buttonClick = (name) => {
+        setFilter(name)
+    }
+
     return (
         <div>
         <Filter label='find countries:' field={filter} setField={setFilter} />
-        <Countries countries={countriesToShow}/>
+        <Countries countries={countriesToShow} buttonClick={buttonClick}/>
 
         </div>
     )
