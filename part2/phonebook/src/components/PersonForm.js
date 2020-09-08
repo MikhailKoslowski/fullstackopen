@@ -1,5 +1,7 @@
 import React from 'react'
 
+import phonebookService from '../services/phonebook'
+
 const PersonForm = (props) => {
     console.log('PersonForm', props)
 
@@ -20,9 +22,17 @@ const PersonForm = (props) => {
       if (persons.find(person => person.name === newName)) {
           alert(`${newName} is already added to the phonebook.`)
       } else {
-          setNewName('')
-          setNewNumber('')
-          setPersons(persons.concat(newPerson))
+
+          phonebookService.create(newPerson)
+            .then(response => {
+              setNewName('')
+              setNewNumber('')
+              setPersons(persons.concat(newPerson))
+            })
+            .catch(error => {
+              alert("Error creating person in db, check console")
+              console.log(error)
+            })
       }
     }
 

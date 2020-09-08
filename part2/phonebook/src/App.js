@@ -4,7 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
-import axios from 'axios'
+import phonebookService from './services/phonebook'
 
 const App = () => {
 
@@ -15,9 +15,13 @@ const App = () => {
 
   const effectHook = () => {
     console.log('effect')
-    axios.get('http://localhost:3001/persons')
+    phonebookService.getAll()
     .then(response => {
-      setPersons(response.data)
+      setPersons(response)
+    })
+    .catch(error => {
+      alert("Error while loading db, check console.")
+      console.log(error)
     })
   }
   useEffect(effectHook, [])
