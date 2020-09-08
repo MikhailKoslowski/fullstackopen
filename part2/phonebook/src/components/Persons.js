@@ -4,7 +4,7 @@ const Persons = (props) => {
     console.log('Persons', props)
     const persons = props.persons
 
-    const filter = props.filter!=undefined ? props.filter : ()=>true
+    const filter = props.filter!==undefined ? props.filter : ()=>true
 
     //const filter = props.filter
     const personsToShow = persons.filter(filter)
