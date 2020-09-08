@@ -20,7 +20,21 @@ const PersonForm = (props) => {
       }
   
       if (persons.find(person => person.name === newName)) {
-          alert(`${newName} is already added to the phonebook.`)
+          const person = persons.find(person => person.name === newName)
+          if (window.confirm(`${person.name} is already added, update the number?`)){
+            person.number = newNumber
+            phonebookService.update(person.id, person)
+            .then(response => {
+              setPersons(persons.map(p => p.id===response.id?response:p))
+              setNewNumber('')
+              setNewName('')
+            })
+            .catch(error => {
+              alert("Error while updating. Check console")
+              console.log(error)
+            })
+          }
+        
       } else {
 
           phonebookService.create(newPerson)
