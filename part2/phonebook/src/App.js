@@ -6,6 +6,8 @@ import Persons from './components/Persons'
 
 import phonebookService from './services/phonebook'
 
+import Notification from './components/Notification'
+
 const App = () => {
 
   const [persons, setPersons] = useState([])
@@ -13,14 +15,23 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ search, setSearch ] = useState('') 
 
+  const [ errorMsg, setErrorMsg ] = useState({text:null, type:'success'})
+
+  const timedNotification = (text, type) => {
+    setErrorMsg({text, type})
+    setTimeout(() => {setErrorMsg({text:null, type:'success'})}, 5000)
+  }
+
+
   const effectHook = () => {
     console.log('effect')
     phonebookService.getAll()
     .then(response => {
       setPersons(response)
+      timedNotification('DB loaded','success')
     })
     .catch(error => {
-      alert("Error while loading db, check console.")
+      timedNotification("Error while loading db, check console.", 'error')
       console.log(error)
     })
   }
@@ -34,9 +45,10 @@ const App = () => {
       .then(response => {
         console.log(response)
         setPersons(persons.filter(p => p.id !== person.id))
+        timedNotification(`${person.name} deleted`,'success')
       })
       .catch(error => {
-        alert("Erro while deleting. check console.")
+        timedNotification("Erro while deleting. check console.", 'error')
         console.log(error)
       })
     }
@@ -45,11 +57,24 @@ const App = () => {
   return (
     <div>
       <h2>Search</h2>
-      <Filter field={search} setField={setSearch} />
+      <Filter
+        field={search}
+        setField={setSearch}
+      />
       <h2>Phonebook</h2>
-      <PersonForm persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
+      <Notification message={errorMsg}/>
+      <PersonForm
+        persons={persons}
+        setPersons={setPersons}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+        timedNotification ={timedNotification}
+      />
       <h2>Numbers</h2>
-      <Persons persons={persons} 
+      <Persons
+        persons={persons} 
         filter={person => person.name.toLowerCase().includes(search.toLowerCase())}
         deleteCallback = {(person) => personDeleteCallback(person)}
       />

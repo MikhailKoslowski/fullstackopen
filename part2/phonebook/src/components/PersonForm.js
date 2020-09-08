@@ -12,6 +12,8 @@ const PersonForm = (props) => {
     const persons = props.persons
     const setPersons = props.setPersons
 
+    const timedNotification = props.timedNotification !== undefined ? props.timedNotification : (text,type) => alert(text)
+
     const addNewPerson = (event) => {
         event.preventDefault()
       const newPerson = {
@@ -28,9 +30,10 @@ const PersonForm = (props) => {
               setPersons(persons.map(p => p.id===response.id?response:p))
               setNewNumber('')
               setNewName('')
+              timedNotification(`${response.name} updated`,'success')
             })
             .catch(error => {
-              alert("Error while updating. Check console")
+              timedNotification("Error while updating. Check console", 'error')
               console.log(error)
             })
           }
@@ -42,9 +45,10 @@ const PersonForm = (props) => {
               setPersons(persons.concat(response))
               setNewName('')
               setNewNumber('')
+              timedNotification(`${response.name} added`,'success')
             })
             .catch(error => {
-              alert("Error creating person in db, check console")
+              timedNotification("Error creating person in db, check console", 'error')
               console.log(error)
             })
       }
