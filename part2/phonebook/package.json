@@ -35,5 +35,6 @@
   },
   "devDependencies": {
     "json-server": "^0.16.1"
-  }
+  },
+  "proxy": "https://warm-lake-54594.herokuapp.com"
 }
