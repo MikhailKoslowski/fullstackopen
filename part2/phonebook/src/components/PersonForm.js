@@ -33,7 +33,7 @@ const PersonForm = (props) => {
               timedNotification(`${response.name} updated`,'success')
             })
             .catch(error => {
-              timedNotification(`Information on ${person.name} has already been removed from the server`, 'error')
+              timedNotification(error.response.data.error, 'error')
               console.log(error)
             })
           }
@@ -47,8 +47,8 @@ const PersonForm = (props) => {
               setNewNumber('')
               timedNotification(`${response.name} added`,'success')
             })
-            .catch(error => {
-              timedNotification("Error creating person in db, check console", 'error')
+            .catch(error => {              
+              timedNotification(error.response.data.error, 'error')
               console.log(error)
             })
       }
