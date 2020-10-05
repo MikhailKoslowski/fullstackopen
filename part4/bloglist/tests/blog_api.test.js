@@ -62,6 +62,23 @@ describe('blog api', () => {
     expect(afterLen).toEqual(beforeLen + 1)
   })
 
+  test('post with no likes equals 0 likes', async () => {
+    const blog = {
+      title: "Test Blog",
+      author: "Mikhail",
+      url: "http://localhost",
+    }
+    
+    // post
+    response = await api.post('/api/blogs')
+      .send(blog)
+      .expect(201)
+
+    // except for the id, they should be equal.
+    expect(response.body.likes).toEqual(0)
+
+  })
+
   afterAll(() => {
     mongoose.connection.close()
     logger.info('disconnected from MongoDB')
