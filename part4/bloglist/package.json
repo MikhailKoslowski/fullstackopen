@@ -4,8 +4,9 @@
   "description": "Blog List fullstackopen part4",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "dev": "nodemon index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "dev": "cross-env NODE_ENV=development nodemon index.js"
   },
   "author": "Mikhail",
   "license": "MIT",
@@ -16,7 +17,9 @@
     "mongoose": "^5.10.7"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "jest": "^26.4.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "supertest": "^5.0.0"
   }
 }
