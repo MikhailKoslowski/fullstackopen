@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const { response } = require('express')
-const blog = require('../models/blog')
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response) => {
@@ -23,6 +22,12 @@ blogsRouter.post('/', async (request, response) => {
 
   const result = await blog.save()
   response.status(201).json(result)
+})
+
+// delete single id
+blogsRouter.delete('/:id', async (request, response) => {
+  const blog = await Blog.findByIdAndRemove(request.params.id)  
+  response.status(204).end()
 })
 
 module.exports = blogsRouter

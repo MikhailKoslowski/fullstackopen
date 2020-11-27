@@ -96,4 +96,43 @@ describe('blog api', () => {
     logger.info('disconnected from MongoDB')
   })
 
+  test('Delete a single blog works', async () => {
+    const blog = {
+      title: "Test Blog to be deleted",
+      author: "Mikhail",
+      url: "http://localhost",
+      likes: 0
+    }
+    
+    // get blogs length
+    let response = await api.get('/api/blogs')
+    const beforeLen = response.body.length
+    
+    // post
+    response = await api.post('/api/blogs')
+      .send(blog)
+      .expect(201)
+
+    // except for the id, they should be equal.
+    blog.id = response.body.id
+    expect(response.body).toEqual(blog)
+
+    // get new len.
+    response = await api.get('/api/blogs')
+    let afterLen = response.body.length
+
+    expect(afterLen).toEqual(beforeLen + 1)
+
+    // now deletes
+    response = await api.delete('/api/blogs/' + blog.id)
+      .send()
+      .expect(204)
+
+    // get new len.
+    response = await api.get('/api/blogs')
+    afterLen = response.body.length
+
+    expect(afterLen).toEqual(beforeLen)
+  })
+
 })
