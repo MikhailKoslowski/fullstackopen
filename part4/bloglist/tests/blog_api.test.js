@@ -79,6 +79,18 @@ describe('blog api', () => {
 
   })
 
+  test('Missing title and url blogs returns 400', async () => {
+    const blog = {
+      author: "Mikhail",
+      likes: 0
+    }
+    
+    // post
+    response = await api.post('/api/blogs')
+      .send(blog)
+      .expect(400)    
+  })
+
   afterAll(() => {
     mongoose.connection.close()
     logger.info('disconnected from MongoDB')

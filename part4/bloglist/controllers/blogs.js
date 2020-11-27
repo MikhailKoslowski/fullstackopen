@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const { response } = require('express')
 const blog = require('../models/blog')
 const Blog = require('../models/blog')
 
@@ -12,6 +13,12 @@ blogsRouter.post('/', async (request, response) => {
 
   if(blog.likes === undefined){
     blog.likes = 0;
+  }
+
+  if(blog.title === undefined && blog.url === undefined)
+  {
+    response.status(400).end()
+    return
   }
 
   const result = await blog.save()
