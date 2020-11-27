@@ -70,7 +70,7 @@ describe('blog api', () => {
     }
     
     // post
-    response = await api.post('/api/blogs')
+    const response = await api.post('/api/blogs')
       .send(blog)
       .expect(201)
 
@@ -86,7 +86,7 @@ describe('blog api', () => {
     }
     
     // post
-    response = await api.post('/api/blogs')
+    const response = await api.post('/api/blogs')
       .send(blog)
       .expect(400)    
   })
@@ -133,6 +133,38 @@ describe('blog api', () => {
     afterLen = response.body.length
 
     expect(afterLen).toEqual(beforeLen)
+  })
+
+  test('Update single blog works', async () => {
+    let blog = {
+      title: "Test Blog to be updated",
+      author: "Mikhail",
+      url: "http://localhost",
+      likes: 0
+    }
+    
+    
+    // post
+    let response = await api.post('/api/blogs')
+      .send(blog)
+      .expect(201)
+
+    // except for the id, they should be equal.
+    blog.id = response.body.id
+    expect(response.body).toEqual(blog)
+
+    blog.likes += 1;
+
+    response = await api.put('/api/blogs/' + blog.id)
+      .send(blog)
+      .expect(200);
+
+    expect(response.body.likes).toEqual(1)
+
+        // now deletes
+    response = await api.delete('/api/blogs/' + blog.id)
+      .send()
+      .expect(204)
   })
 
 })
