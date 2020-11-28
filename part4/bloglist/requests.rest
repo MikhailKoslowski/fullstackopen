@@ -11,3 +11,30 @@ Content-Type: application/json
   "url":"localhost",
   "likes":3
 }
+
+###
+DELETE http://localhost:3003/api/blogs/5fc1305fb01c7922fe4650ad
+
+###
+PUT http://localhost:3003/api/blogs/5f6fce741280892f4010d3a3
+Content-Type: application/json
+
+{
+  "title":"Sample blog 2",
+  "author":"Mikhail",
+  "url":"localhost",
+  "likes":4
+}
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username":"mkslwsk",
+  "name":"Mikhail",
+  "password":"T0P53CR3T"
+}
