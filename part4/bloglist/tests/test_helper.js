@@ -49,6 +49,17 @@ const initialBlogs  = [
   }  
 ]
 
+const initialUsers  = [
+  {
+    _id: "5fc27c771dda850f39c625df",
+    username: "mkslwsk",
+    name: "Mikhail",
+    passwordHash: "$2b$10$Y8YJp0mcT4UIAaPr4.tlI.sAy7SMlEy.wXmzCeH9mygeIHSMf8Yoa",
+    __v: 0
+  }
+]
+
 module.exports = {
-  initialBlogs
+  initialBlogs,
+  initialUsers
 }

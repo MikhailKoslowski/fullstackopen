@@ -8,13 +8,31 @@ usersRouter.get('/', async (request, response) => {
 })
 
 // delete single id
+// WARNING: this API is used for testing only! should not be present in production system!
 usersRouter.delete('/:id', async (request, response) => {
-  const blog = await User.findByIdAndRemove(request.params.id)  
+  const user = await User.findByIdAndRemove(request.params.id)  
   response.status(204).end()
 })
 
-usersRouter.post('/', async (request, response) => {
+usersRouter.post('/', async (request, response, next) => {
   const body = request.body
+
+  if(body.password === undefined || body.username === undefined)
+  {
+    response.status(400).send({error:'username and password should be defined'})
+    return
+  }
+
+  if(body.password.length < 3)
+  {
+    response.status(400).send({error:'password should be more than 3 characters long'})
+    return
+  }
+  if(body.username.length < 3)
+  {
+    response.status(400).send({error:'username should be more than 3 characters long'})
+    return
+  }
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds)
@@ -25,9 +43,15 @@ usersRouter.post('/', async (request, response) => {
     passwordHash
   })
 
-  const savedUser = await user.save()
-
-  response.json(savedUser)
+  try
+  {
+    const savedUser = await user.save()
+    response.status(201).json(savedUser)
+  }
+  catch(e)
+  {
+    next(e)
+  }
 })
 
 module.exports = usersRouter

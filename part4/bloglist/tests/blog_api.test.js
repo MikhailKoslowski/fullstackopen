@@ -91,11 +91,6 @@ describe('blog api', () => {
       .expect(400)    
   })
 
-  afterAll(() => {
-    mongoose.connection.close()
-    logger.info('disconnected from MongoDB')
-  })
-
   test('Delete a single blog works', async () => {
     const blog = {
       title: "Test Blog to be deleted",
@@ -165,6 +160,11 @@ describe('blog api', () => {
     response = await api.delete('/api/blogs/' + blog.id)
       .send()
       .expect(204)
+  })
+
+  afterAll(() => {
+    mongoose.connection.close()
+    logger.info('disconnected from MongoDB')
   })
 
 })
