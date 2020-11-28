@@ -51,8 +51,9 @@ describe('blog api', () => {
       .send(blog)
       .expect(201)
 
-    // except for the id, they should be equal.
+    // except for the id and user, they should be equal.
     blog.id = response.body.id
+    blog.user = response.body.user
     expect(response.body).toEqual(blog)
 
     // get new len.
@@ -74,7 +75,6 @@ describe('blog api', () => {
       .send(blog)
       .expect(201)
 
-    // except for the id, they should be equal.
     expect(response.body.likes).toEqual(0)
 
   })
@@ -108,8 +108,9 @@ describe('blog api', () => {
       .send(blog)
       .expect(201)
 
-    // except for the id, they should be equal.
+    // except for the id and user, they should be equal.
     blog.id = response.body.id
+    blog.user = response.body.user
     expect(response.body).toEqual(blog)
 
     // get new len.
@@ -144,8 +145,9 @@ describe('blog api', () => {
       .send(blog)
       .expect(201)
 
-    // except for the id, they should be equal.
+    // except for the id and user, they should be equal.
     blog.id = response.body.id
+    blog.user = response.body.user
     expect(response.body).toEqual(blog)
 
     blog.likes += 1;

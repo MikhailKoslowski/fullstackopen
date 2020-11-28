@@ -6,14 +6,14 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title":"Sample blog 2",
+  "title":"Sample blog 4",
   "author":"Mikhail",
   "url":"localhost",
   "likes":3
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/5fc1305fb01c7922fe4650ad
+DELETE http://localhost:3003/api/blogs/
 
 ###
 PUT http://localhost:3003/api/blogs/5f6fce741280892f4010d3a3
@@ -34,7 +34,10 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-  "username":"mkslwsk",
+  "username":"mkslwsk3",
   "name":"Mikhail",
   "password":"T0P53CR3T"
 }
+
+###
+DELETE http://localhost:3003/api/users/5fc2bea45a68f9276076ae50

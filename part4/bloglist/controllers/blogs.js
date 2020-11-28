@@ -1,8 +1,10 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
+    .populate('user', { username: 1, name: 1, id: 1 })
   response.json(blogs)
 })
 
@@ -19,13 +21,37 @@ blogsRouter.post('/', async (request, response) => {
     return
   }
 
-  const result = await blog.save()
-  response.status(201).json(result)
+  const users = await User.find({})
+  const randomIndex = Math.floor(Math.random()*users.length)
+  
+  if(blog.user === undefined) 
+  {      
+      if (users.length < 1)
+      {
+        response.status(400).send({error: "no user exists"})
+        return
+      }
+      blog.user = users[randomIndex]._id
+  }  
+  const savedBlog = await blog.save()
+  
+
+  const user = users[randomIndex]
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+
+
+  response.status(201).json(savedBlog)
 })
 
 // delete single id
 blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findByIdAndRemove(request.params.id)  
+  response.status(204).end()
+})
+
+blogsRouter.delete('/', async (request, response) => {
+  await Blog.deleteMany({})
   response.status(204).end()
 })
 
