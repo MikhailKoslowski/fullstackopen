@@ -41,3 +41,12 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3003/api/users/5fc2bea45a68f9276076ae50
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username":"mkslwsk3",
+  "password":"T0P53CR3T"
+}

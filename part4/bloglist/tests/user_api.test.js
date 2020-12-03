@@ -148,8 +148,8 @@ describe('user api', () => {
   })
 
   
-  afterAll(() => {
-    mongoose.connection.close()
+  afterAll(async () => {
+    await mongoose.connection.close()
     logger.info('disconnected from MongoDB')
   })
 

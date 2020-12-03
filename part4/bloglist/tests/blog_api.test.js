@@ -164,8 +164,8 @@ describe('blog api', () => {
       .expect(204)
   })
 
-  afterAll(() => {
-    mongoose.connection.close()
+  afterAll(async () => {
+    await mongoose.connection.close()
     logger.info('disconnected from MongoDB')
   })
 
