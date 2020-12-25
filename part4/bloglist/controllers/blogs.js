@@ -2,6 +2,27 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
+const jwt = require('jsonwebtoken')
+
+// helper function to extract token from bearer auth header
+const getTokenFrom = request => {  
+  const authorization = request.get('authorization')
+  
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return undefined
+}
+
+const decodeToken = token => {
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    return decodedToken
+  } catch (error) {
+    return undefined
+  }
+}
+
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
     .populate('user', { username: 1, name: 1, id: 1 })
@@ -11,32 +32,31 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
-  if(blog.likes === undefined){
+  if(blog.likes === undefined) {
     blog.likes = 0;
   }
 
-  if(blog.title === undefined && blog.url === undefined)
-  {
+  if(blog.title === undefined && blog.url === undefined) {
     response.status(400).end()
     return
   }
 
-  const users = await User.find({})
-  const randomIndex = Math.floor(Math.random()*users.length)
-  
-  if(blog.user === undefined) 
-  {      
-      if (users.length < 1)
-      {
-        response.status(400).send({error: "no user exists"})
-        return
-      }
-      blog.user = users[randomIndex]._id
-  }  
+  const token = getTokenFrom(request)
+  const decodedToken = decodeToken(token)
+  if (!token || !decodedToken || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  if (user === undefined) {
+    response.status(400).send({error: "no user exists"})
+    return
+  }
+
+  blog.user = user._id
+
   const savedBlog = await blog.save()
   
-
-  const user = users[randomIndex]
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
