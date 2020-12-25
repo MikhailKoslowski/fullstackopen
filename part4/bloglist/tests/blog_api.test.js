@@ -1,13 +1,18 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const supertest = require('supertest')
 const app = require('../app')
 const logger = require('../utils/logger')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 const { initialBlogs } = require('./test_helper')
 
 describe('blog api', () => {
+
+  token = ''
 
   beforeEach(async () => {
     await Blog.deleteMany({})
@@ -15,6 +20,32 @@ describe('blog api', () => {
       let blogObj = new Blog(blog)
       await blogObj.save()
     }
+
+    await User.deleteMany({})
+
+    const u = {
+      "username":"root",
+      "name":"root",
+      "password":"T0P53CR3T"
+    }
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(u.password, saltRounds)
+
+    const user = new User({
+      username: u.username,
+      name: u.name,
+      passwordHash
+    })
+
+    await user.save()
+
+    const userForToken = {
+      username: user.username,
+      id: user._id,
+    }
+
+    token = jwt.sign(userForToken, process.env.JWT_SECRET)
   })
 
   test('get all', async () => {
@@ -48,6 +79,7 @@ describe('blog api', () => {
     
     // post
     response = await api.post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(blog)
       .expect(201)
 
@@ -72,6 +104,7 @@ describe('blog api', () => {
     
     // post
     const response = await api.post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(blog)
       .expect(201)
 
@@ -87,6 +120,7 @@ describe('blog api', () => {
     
     // post
     const response = await api.post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(blog)
       .expect(400)    
   })
@@ -105,6 +139,7 @@ describe('blog api', () => {
     
     // post
     response = await api.post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(blog)
       .expect(201)
 
@@ -121,6 +156,7 @@ describe('blog api', () => {
 
     // now deletes
     response = await api.delete('/api/blogs/' + blog.id)
+      .set('Authorization', 'Bearer ' + token)
       .send()
       .expect(204)
 
@@ -142,6 +178,7 @@ describe('blog api', () => {
     
     // post
     let response = await api.post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(blog)
       .expect(201)
 
@@ -160,6 +197,7 @@ describe('blog api', () => {
 
         // now deletes
     response = await api.delete('/api/blogs/' + blog.id)
+      .set('Authorization', 'Bearer ' + token)
       .send()
       .expect(204)
   })
