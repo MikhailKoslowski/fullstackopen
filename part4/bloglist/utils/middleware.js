@@ -32,9 +32,9 @@ const getTokenFromAuth = (request, response, next) => {
   const authorization = request.get('authorization')
   
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {    
-    request.body.token = authorization.substring(7)
+    request.token = authorization.substring(7)
   } else {
-    request.body.token = null
+    request.token = null
   }
 
   next();
