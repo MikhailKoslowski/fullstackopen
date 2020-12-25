@@ -39,7 +39,7 @@ blogsRouter.post('/', async (request, response) => {
 
   const user = await User.findById(decodedToken.id)
   if (user === undefined) {
-    response.status(400).send({error: "no user exists"})
+    response.status(400).json({error: "no user exists"})
     return
   }
 
@@ -56,12 +56,43 @@ blogsRouter.post('/', async (request, response) => {
 
 // delete single id
 blogsRouter.delete('/:id', async (request, response) => {
-  const blog = await Blog.findByIdAndRemove(request.params.id)  
-  response.status(204).end()
+  const token = request.token
+  const decodedToken = decodeToken(token)
+  if (!token || !decodedToken || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+    
+  const blog = await Blog.findById(request.params.id)
+
+  console.log(user._id)
+  console.log(blog.user.toString())
+
+  if (user._id.toString() === blog.user.toString()) {
+    const blog = await Blog.findByIdAndRemove(request.params.id)      
+    response.status(204).end()
+  } else {
+    response.status(403).json({ error: 'not your blog'})
+  }
 })
 
 blogsRouter.delete('/', async (request, response) => {
-  await Blog.deleteMany({})
+  const token = request.token
+  const decodedToken = decodeToken(token)
+  if (!token || !decodedToken || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  console.log(user._id)
+
+  if (user.username === 'root') {
+    await Blog.deleteMany({})
+    response.status(204).end()
+  } else {
+    response.status(403).json({ error: 'only root can delete all blogs'})
+  }
   response.status(204).end()
 })
 

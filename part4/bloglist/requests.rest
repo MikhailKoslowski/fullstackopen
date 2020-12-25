@@ -15,6 +15,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1rc
 
 ###
 DELETE http://localhost:3003/api/blogs/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjVmZTY2YjQ1ZTY4ZjUyOTE1NjFmOWEyNCIsImlhdCI6MTYwODkzNjI5MX0.HH0d4jiFnuC2grNMD596TE9IQNfk7kqZ43QlGaGfnM8
+
+###
+DELETE http://localhost:3003/api/blogs/5fe66b92625c7f91a45c6216
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1rc2x3c2szIiwiaWQiOiI1ZmMyYzFlZWUzZWQ1MDJhODZkZjQ1MGUiLCJpYXQiOjE2MDg5MTA4MTV9.NHFnHsidV2xZJw2MDdPKi-XDFlyG8upAQETS5KikHb0
+
 
 ###
 PUT http://localhost:3003/api/blogs/5f6fce741280892f4010d3a3
@@ -35,8 +41,8 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-  "username":"mkslwsk3",
-  "name":"Mikhail",
+  "username":"root",
+  "name":"root",
   "password":"T0P53CR3T"
 }
 
@@ -48,6 +54,6 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-  "username":"mkslwsk3",
+  "username":"root",
   "password":"T0P53CR3T"
 }
