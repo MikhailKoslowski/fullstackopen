@@ -4,16 +4,6 @@ const User = require('../models/user')
 
 const jwt = require('jsonwebtoken')
 
-// helper function to extract token from bearer auth header
-const getTokenFrom = request => {  
-  const authorization = request.get('authorization')
-  
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return undefined
-}
-
 const decodeToken = token => {
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
@@ -41,7 +31,7 @@ blogsRouter.post('/', async (request, response) => {
     return
   }
 
-  const token = getTokenFrom(request)
+  const token = request.body.token
   const decodedToken = decodeToken(token)
   if (!token || !decodedToken || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
